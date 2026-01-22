@@ -9,6 +9,7 @@ export default function RoadMap() {
     title: string;
     desc: string;
     color: string;
+    borderColor: string;
   }
 
   const workSteps: WorkStep[] = [
@@ -17,28 +18,32 @@ export default function RoadMap() {
       title: "Skill Mapping",
       desc: "We assess and recommend the best learning paths tailored just for you.",
       color:
-        "bg-purple-100 border-purple-200 text-purple-900 dark:bg-purple-900/30 dark:border-purple-500/30 dark:text-purple-100",
+        "bg-theme-2/5 border-theme-2/20 text-theme-2 dark:bg-theme-2/10 dark:border-theme-2/30 dark:text-theme-2",
+      borderColor: "hover:border-theme-2",
     },
     {
       step: "02",
       title: "Interactive Training",
       desc: "Practice with real-time feedback from AI avatars in a risk-free environment.",
       color:
-        "bg-teal-100 border-teal-200 text-teal-900 dark:bg-teal-900/30 dark:border-teal-500/30 dark:text-teal-100",
+        "bg-theme-1/5 border-theme-1/20 text-theme-1 dark:bg-theme-1/10 dark:border-theme-1/30 dark:text-theme-1",
+      borderColor: "hover:border-theme-1",
     },
     {
       step: "03",
       title: "Analyse",
       desc: "Get Granular data on every interaction to evaluate your soft skills.",
       color:
-        "bg-orange-100 border-orange-200 text-orange-900 dark:bg-orange-900/30 dark:border-orange-500/30 dark:text-orange-100",
+        "bg-theme-3/5 border-theme-3/20 text-theme-3 dark:bg-theme-3/10 dark:border-theme-3/30 dark:text-theme-3",
+      borderColor: "hover:border-theme-3",
     },
     {
       step: "04",
       title: "Track & Improve",
       desc: "Monitor your progress over time and sharpen your professional expertise.",
       color:
-        "bg-blue-100 border-blue-200 text-blue-900 dark:bg-blue-900/30 dark:border-blue-500/30 dark:text-blue-100",
+        "bg-theme-4/5 border-theme-4/20 text-theme-4 dark:bg-theme-4/10 dark:border-theme-4/30 dark:text-theme-4",
+      borderColor: "hover:border-theme-4",
     },
   ];
 
@@ -47,16 +52,19 @@ export default function RoadMap() {
   };
 
   return (
-    <section id="roadmap" className="section-container bg-surface">
+    <section
+      id="roadmap"
+      className="section-container bg-surface lg:rounded-l-full"
+    >
       {/* HEADER */}
       <div className="relative z-10 flex flex-col items-center text-center gap-4 mb-16 w-full max-w-6xl mx-auto">
-        <div className="inline-block px-4 py-2 rounded-2xl bg-brand-primary text-white text-xs font-black uppercase tracking-widest transform -rotate-1">
+        <div className="inline-block px-4 py-2 rounded-2xl bg-theme-2 text-white text-xs font-black uppercase tracking-widest transform -rotate-1">
           The Process
         </div>
         <div className="relative">
           <StarBurst className="text-yellow-400 absolute -top-10 -right-10 w-16 h-16 animate-spin-slow" />
           <h3 className="text-3xl md:text-5xl lg:text-6xl font-display font-bold text-light z-10 relative">
-            How We <span className="text-brand-secondary">Work</span>
+            How We <span className="text-theme-1">Work</span>
           </h3>
         </div>
         <p className="text-muted max-w-2xl text-lg leading-relaxed font-medium">
@@ -79,9 +87,13 @@ export default function RoadMap() {
                   ${
                     isOpen
                       ? `${item.color} shadow-none translate-y-1`
-                      : "bg-white dark:bg-white/5 border-transparent shadow-[8px_8px_0px_0px_rgba(0,0,0,0.05)] hover:-translate-y-1 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,0.1)]"
+                      : `bg-white dark:bg-black/40 border-transparent shadow-sm hover:-translate-y-1 hover:shadow-md ${item.borderColor}`
                   }
                 `}
+              style={{
+                borderColor: isOpen ? "" : undefined,
+                color: isOpen ? "" : undefined,
+              }}
             >
               {/* ✅ CONTENT */}
               <div className="relative z-10 w-full">

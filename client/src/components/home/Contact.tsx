@@ -1,48 +1,4 @@
-import { useState } from "react";
-
-const ContactItem = ({
-  icon,
-  title,
-  value,
-}: {
-  icon: React.ReactNode;
-  title: string;
-  value: string;
-}) => {
-  const [copied, setCopied] = useState(false);
-
-  const handleCopy = async () => {
-    try {
-      await navigator.clipboard.writeText(value);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1200);
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
-  return (
-    <button
-      onClick={handleCopy}
-      className="flex items-center gap-6 group text-left w-full"
-      title="Click to copy"
-    >
-      <div className="size-14 rounded-2xl bg-secondary/10 flex items-center justify-center text-secondary group-hover:bg-secondary group-hover:text-primary transition-colors duration-300">
-        {icon}
-      </div>
-
-      <div>
-        <p className="text-xs font-bold uppercase tracking-widest text-muted">
-          {title}
-        </p>
-        <p className="text-lg font-semibold flex items-center gap-2">
-          {value}
-          {copied && <span className="text-xs text-secondary">Copied</span>}
-        </p>
-      </div>
-    </button>
-  );
-};
+import ClickToCopy from "../common/ClickToCopy";
 
 export default function Contact() {
   const contactDetails = [
@@ -86,13 +42,16 @@ export default function Contact() {
   ];
 
   return (
-    <section id="contact" className="section-container bg-primary text-light">
+    <section
+      id="contact"
+      className="section-container bg-surface relative rounded-b-[3rem] z-10"
+    >
       <div className="relative z-10 flex flex-col items-center text-center gap-4 mb-20 w-full max-w-6xl mx-auto">
-        <h2 className="inline-block px-4 py-1.5 rounded-full border border-secondary/30 bg-secondary/5 text-secondary text-xs font-bold uppercase tracking-[0.2em]">
+        <h2 className="inline-block px-4 py-1.5 rounded-full border border-theme-1/30 bg-theme-1/10 text-theme-1 text-xs font-bold uppercase tracking-[0.2em]">
           Get In Touch
         </h2>
         <h3 className="text-3xl md:text-4xl lg:text-5xl font-bold text-light">
-          Let's Start a <span className="text-secondary">Conversation</span>
+          Let's Start a <span className="text-theme-1">Conversation</span>
         </h3>
         <p className="text-muted max-w-2xl text-lg leading-relaxed">
           Have questions or ready to transform your team's skills? Reach out
@@ -102,7 +61,7 @@ export default function Contact() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center max-w-6xl mx-auto">
         {/* LEFT = FORM */}
-        <form className="glass p-6 md:p-10 rounded-[2.5rem] space-y-6 border-white/10">
+        <form className="bg-white dark:bg-black/20 border border-primary/10 dark:border-white/5 p-6 md:p-10 rounded-[2.5rem] space-y-6 shadow-premium">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div>
               <label className="block text-xs font-bold uppercase tracking-widest text-muted mb-2 ml-1">
@@ -112,7 +71,7 @@ export default function Contact() {
                 type="text"
                 required
                 placeholder="John Doe"
-                className="w-full px-5 py-4 rounded-2xl bg-surface/80 dark:bg-white/5 border border-primary/10 dark:border-white/10 outline-none focus:border-secondary/50 transition-colors text-light"
+                className="input-odoo"
               />
             </div>
             <div>
@@ -123,7 +82,7 @@ export default function Contact() {
                 type="email"
                 required
                 placeholder="john@example.com"
-                className="w-full px-5 py-4 rounded-2xl bg-surface/80 dark:bg-white/5 border border-primary/10 dark:border-white/10 outline-none focus:border-secondary/50 transition-colors text-light"
+                className="input-odoo focus:border-theme-2/50"
               />
             </div>
           </div>
@@ -136,13 +95,13 @@ export default function Contact() {
               required
               rows={4}
               placeholder="Tell us about your needs..."
-              className="w-full px-5 py-4 rounded-2xl bg-surface/80 dark:bg-white/5 border border-primary/10 dark:border-white/10 outline-none focus:border-secondary/50 transition-colors text-light resize-none"
+              className="input-odoo resize-none focus:border-theme-3/50"
             />
           </div>
 
           <button
             type="submit"
-            className="w-full py-5 rounded-2xl bg-secondary text-primary font-bold text-lg hover:bg-accent hover:scale-[1.02] transition-all duration-300 shadow-glow"
+            className="w-full py-5 rounded-2xl bg-theme-1 text-white font-bold text-lg hover:bg-theme-2 hover:scale-[1.02] transition-all duration-300 shadow-lg shadow-theme-1/20 hover:shadow-theme-2/30"
           >
             Send Message
           </button>
@@ -153,7 +112,7 @@ export default function Contact() {
           <div className="space-y-6">
             <h4 className="text-3xl font-bold tracking-tight">
               Connect With Us <br />
-              <span className="text-secondary">Anywhere, Anytime.</span>
+              <span className="text-theme-2">Anywhere, Anytime.</span>
             </h4>
             <p className="text-muted text-lg leading-relaxed">
               Our team is dedicated to providing the best AI-driven training
@@ -164,12 +123,25 @@ export default function Contact() {
 
           <div className="space-y-6">
             {contactDetails.map((item, index) => (
-              <ContactItem
+              <div
                 key={index}
-                icon={item.icon}
-                title={item.title}
-                value={item.value}
-              />
+                className="flex items-center gap-6 group text-left w-full p-4 rounded-3xl hover:bg-white dark:hover:bg-black/40 transition-all duration-300 border border-transparent hover:border-black/5 dark:hover:border-white/5 hover:shadow-sm"
+              >
+                <div
+                  className={`size-16 rounded-2xl flex items-center justify-center transition-all duration-300 shadow-inner ${
+                    index === 0
+                      ? "bg-theme-1/10 text-theme-1 group-hover:bg-theme-1 group-hover:text-white"
+                      : "bg-theme-2/10 text-theme-2 group-hover:bg-theme-2 group-hover:text-white"
+                  }`}
+                >
+                  {item.icon}
+                </div>
+                <ClickToCopy
+                  value={item.value}
+                  label={item.title}
+                  className="flex-1"
+                />
+              </div>
             ))}
           </div>
         </div>

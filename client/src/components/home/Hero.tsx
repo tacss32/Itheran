@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react";
 import Lottie from "react-lottie";
 import robot from "../../assets/robot2.json";
-import { ArrowDoodle, StarBurst, Squiggle } from "../FunElements";
+import {
+  ArrowDoodle,
+  StarBurst,
+  SmoothUnderline,
+  CircleDoodle,
+} from "../FunElements";
 
 export default function Hero() {
   const [scrollY, setScrollY] = useState(0);
@@ -13,6 +18,21 @@ export default function Hero() {
       preserveAspectRatio: "xMidYMid slice",
     },
   };
+
+  const pitches = [
+    {
+      color: "theme-3",
+      text: "3D Avatar Interaction",
+    },
+    {
+      color: "theme-2",
+      text: "No Credit Card Needed",
+    },
+    {
+      color: "theme-1",
+      text: "AI-Driven Feedback",
+    },
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -29,19 +49,24 @@ export default function Hero() {
       id="hero"
       className="relative flex justify-center items-center min-h-dvh w-full overflow-hidden bg-primary text-light"
     >
-      {/* Fun Background Blobs */}
+      {/* Fun Background Blobs - Hero Colors */}
       <div
-        className="absolute top-0 -left-20 w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-2xl opacity-70 animate-blob dark:opacity-20 dark:mix-blend-normal"
-        style={{ transform: `translateY(${scrollY * 0.3}px)` }}
+        className="absolute top-0 -left-20 size-60 bg-theme-2 rounded-full mix-blend-multiply filter blur-3xl opacity-25 animate-blob dark:mix-blend-normal"
+        style={{ transform: `translateY(${scrollY * 0.5}px)` }}
       />
       <div
-        className="absolute top-0 -right-20 w-72 h-72 bg-teal-300 rounded-full mix-blend-multiply filter blur-2xl opacity-70 animate-blob animation-delay-2000 dark:opacity-20 dark:mix-blend-normal"
-        style={{ transform: `translateY(${scrollY * 0.6}px)` }}
+        className="absolute top-20 -right-24 size-96 bg-theme-1 rounded-full mix-blend-multiply filter blur-3xl opacity-25 animate-blob animation-delay-2000 dark:mix-blend-normal"
+        style={{ transform: `translateY(${scrollY * 0.8}px)` }}
       />
       <div
-        className="absolute -bottom-32 left-20 w-72 h-72 bg-pink-300 rounded-full mix-blend-multiply filter blur-2xl opacity-70 animate-blob animation-delay-4000 dark:opacity-20 dark:mix-blend-normal"
+        className="absolute -bottom-32 left-24 size-80 bg-theme-3 rounded-full mix-blend-multiply filter blur-3xl opacity-25 animate-blob animation-delay-4000 dark:mix-blend-normal"
         style={{ transform: `translateY(${scrollY * 0.4}px)` }}
       />
+      <div
+        className="absolute top-1/2 right-1/4 size-72 bg-theme-2 rounded-full mix-blend-multiply filter blur-3xl opacity-25 animate-blob animation-delay-2000 dark:mix-blend-normal"
+        style={{ transform: `translateY(${scrollY * 0.6}px)` }}
+      />
+      <CircleDoodle className="text-theme-3 top-20 left-1/4 w-32 h-32 opacity-60" />
 
       {/* Main Content */}
       <div
@@ -49,7 +74,7 @@ export default function Hero() {
         style={{ transform: `translateY(${scrollY * 0.15}px)` }}
       >
         {/* Badge */}
-        <div className="inline-block px-6 py-2 rounded-full border-2 border-secondary bg-surface text-secondary text-sm font-black uppercase tracking-widest shadow-[4px_4px_0px_0px_var(--color-secondary)] hover:translate-y-1 hover:shadow-none transition-all cursor-default animate-bounce relative z-10">
+        <div className="inline-block px-6 py-2 rounded-full border-2 border-theme-1 bg-surface dark:bg-black/40 text-theme-1 text-sm font-black uppercase tracking-widest shadow-[4px_4px_0px_0px_var(--color-theme-1)] hover:translate-y-1 hover:shadow-none transition-all cursor-default animate-bounce relative z-10">
           🚀 Next Gen Skill Development
         </div>
 
@@ -58,16 +83,16 @@ export default function Hero() {
           <StarBurst className="text-yellow-400 -top-8 -right-8 w-16 h-16 animate-spin-slow" />
           <h1 className="text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-display leading-tight md:leading-none text-light drop-shadow-sm">
             Avatar-Based <br />
-            <span className="relative inline-block text-secondary transform -rotate-2 hover:rotate-3 transition-transform duration-300">
+            <span className="relative inline-block text-theme-2 transform -rotate-2 hover:rotate-3 transition-transform duration-300">
               Skill Training
-              <Squiggle className="text-accent w-full -bottom-2 md:-bottom-4 left-0 h-4 md:h-6" />
+              <SmoothUnderline className="text-theme-1 w-full" />
             </span>
           </h1>
         </div>
 
-        <p className="text-2xl md:text-3xl font-medium text-light max-w-3xl mx-auto leading-relaxed transform rotate-1">
+        <p className="text-lg md:text-3xl font-medium text-light max-w-3xl mx-auto leading-relaxed transform rotate-1">
           Simulate interviews, master soft skills, and grow with{" "}
-          <span className="font-bold text-secondary decoration-wavy underline decoration-accent">
+          <span className="font-bold text-theme-2 px-2 py-1 bg-theme-2/10 rounded-lg">
             AI feedback
           </span>{" "}
           in a 3D world!
@@ -75,28 +100,12 @@ export default function Hero() {
 
         {/* Feature Cards Loop */}
         <div className="flex flex-wrap justify-center gap-4 md:gap-8 pt-8 relative">
-          <ArrowDoodle className="text-secondary h-24 w-24 absolute -left-12 -top-10 transform -rotate-45 hidden lg:block" />
+          <ArrowDoodle className="text-hero-secondary h-24 w-24 absolute -left-12 -top-10 transform -rotate-45 hidden lg:block" />
 
-          {[
-            {
-              color:
-                "bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-100 dark:border-purple-500/30",
-              text: "3D Avatar Interaction",
-            },
-            {
-              color:
-                "bg-teal-100 text-teal-700 dark:bg-teal-900/40 dark:text-teal-100 dark:border-teal-500/30",
-              text: "No Credit Card Needed",
-            },
-            {
-              color:
-                "bg-orange-100 text-orange-700 dark:bg-orange-900/40 dark:text-orange-100 dark:border-orange-500/30",
-              text: "AI-Driven Feedback",
-            },
-          ].map((item, i) => (
+          {pitches.map((item, i) => (
             <div
               key={i}
-              className={`px-8 py-4 rounded-3xl ${item.color} font-black text-lg shadow-[6px_6px_0px_0px_rgba(0,0,0,0.1)] hover:shadow-none hover:translate-0.5 transition-all duration-200 cursor-pointer hover:animate-wiggle border-2 border-transparent`}
+              className={`px-4 py-2 md:px-8 md:py-4 rounded-3xl bg-${item.color}/20 text-${item.color} border-${item.color}  font-black text-lg shadow-[6px_6px_0px_0px_rgba(0,0,0,0.1)] hover:shadow-none hover:translate-0.5 transition-all duration-200 cursor-pointer border-2 border-transparent hover:scale-105`}
             >
               {item.text}
             </div>
@@ -113,8 +122,8 @@ export default function Hero() {
 
       {/* Lottie Robot */}
       <div
-        className="absolute h-1/2 md:h-full z-10 pointer-events-none opacity-20 lg:opacity-60 lg:blur-sm"
-        style={{ transform: `translateY(${scrollY * 0.7}px)` }}
+        className="absolute h-3/5 md:h-[90%] md:top-10 z-0 pointer-events-none opacity-80 dark:opacity-40 lg:opacity-60 dark:lg:opacity-40"
+        style={{ transform: `translateY(${scrollY * 0.4}px)` }}
       >
         <Lottie options={defaultOptions} />
       </div>

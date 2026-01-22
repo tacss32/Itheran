@@ -1,17 +1,22 @@
 import { useState, useEffect } from "react";
-import Lottie from "react-lottie";
-
 import resume from "../assets/resume.json";
 import skills from "../assets/skills.json";
 import interview from "../assets/interview.json";
 import aboutus from "../assets/aboutus.json";
+import MobileSidebar from "./sidebar/MobileSidebar";
+import SidebarNavList from "./sidebar/SidebarNavList";
 
 interface SidebarProps {
   activeId: string;
   onSelect: (id: string) => void;
+  themeColor?: string;
 }
 
-export default function Sidebar({ activeId, onSelect }: SidebarProps) {
+export default function Sidebar({
+  activeId,
+  onSelect,
+  themeColor = "secondary",
+}: SidebarProps) {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
 
   const items = [
@@ -25,11 +30,6 @@ export default function Sidebar({ activeId, onSelect }: SidebarProps) {
     { id: "resume-gen", icon: resume, label: "Resume Generation" },
   ];
 
-  // Close mobile drawer when selection changes
-  useEffect(() => {
-    setIsMobileOpen(false);
-  }, [activeId]);
-
   // Lock body scroll when mobile drawer is open
   useEffect(() => {
     if (isMobileOpen) {
@@ -42,31 +42,34 @@ export default function Sidebar({ activeId, onSelect }: SidebarProps) {
     };
   }, [isMobileOpen]);
 
-  const NavItems = () => (
-    <>
-      {items.map((item) => (
-        <button
-          key={item.id}
-          onClick={() => onSelect(item.id)}
-          className={`flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-300 group whitespace-nowrap w-full text-left ${
-            activeId === item.id
-              ? "bg-secondary text-white shadow-lg scale-105"
-              : "hover:bg-surface text-muted hover:text-light"
-          }`}
-        >
-          <div>
-            <Lottie
-              options={{ animationData: item.icon, autoplay: false }}
-              isPaused={true}
-              height="30px"
-              width="30px"
-            />
-          </div>
-          <span className="font-semibold tracking-wide">{item.label}</span>
-        </button>
-      ))}
-    </>
-  );
+  const colorThemeClasses: Record<
+    string,
+    { border: string; text: string; headerText: string }
+  > = {
+    "theme-1": {
+      border: "hover:border-theme-1",
+      text: "text-theme-1",
+      headerText: "text-theme-1",
+    },
+    "theme-2": {
+      border: "hover:border-theme-2",
+      text: "text-theme-2",
+      headerText: "text-theme-2",
+    },
+    "theme-3": {
+      border: "hover:border-theme-3",
+      text: "text-theme-3",
+      headerText: "text-theme-3",
+    },
+    "theme-4": {
+      border: "hover:border-theme-4",
+      text: "text-theme-4",
+      headerText: "text-theme-4",
+    },
+  };
+
+  const currentTheme =
+    colorThemeClasses[themeColor] || colorThemeClasses["theme-2"];
 
   return (
     <>
@@ -74,9 +77,11 @@ export default function Sidebar({ activeId, onSelect }: SidebarProps) {
       <div className="lg:hidden w-full mb-6">
         <button
           onClick={() => setIsMobileOpen(true)}
-          className="w-full flex items-center justify-between px-6 py-4 bg-surface dark:bg-white/5 border border-white/10 rounded-2xl shadow-sm hover:border-secondary transition-colors group"
+          className={`w-full flex items-center justify-between px-6 py-4 bg-surface dark:bg-black/40 border border-white/10 rounded-2xl shadow-sm ${currentTheme.border} transition-colors group`}
         >
-          <div className="flex items-center space-x-3 text-secondary font-display font-bold text-lg">
+          <div
+            className={`flex items-center space-x-3 ${currentTheme.text} font-display font-bold text-lg transition-colors duration-300`}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -100,66 +105,40 @@ export default function Sidebar({ activeId, onSelect }: SidebarProps) {
         </button>
       </div>
 
-      {/* Mobile Drawer Overlay */}
-      {isMobileOpen && (
-        <div className="fixed inset-0 z-50 lg:hidden">
-          <div
-            className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
-            onClick={() => setIsMobileOpen(false)}
-          />
-          <aside className="absolute top-0 left-0 bottom-0 w-[85%] max-w-sm bg-surface dark:bg-[#1e1e2d] shadow-2xl p-6 overflow-y-auto border-r border-white/10 animate-slide-in">
-            <div className="flex justify-between items-center mb-8">
-              <h2 className="text-xl font-display font-bold text-secondary tracking-wide">
-                Features
-              </h2>
-              <button
-                onClick={() => setIsMobileOpen(false)}
-                className="p-2 text-muted hover:text-secondary transition-colors bg-white/5 rounded-full"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M18 6 6 18" />
-                  <path d="M6 6 18 18" />
-                </svg>
-              </button>
-            </div>
-            <nav className="flex flex-col space-y-2">
-              <NavItems />
-            </nav>
-            <div className="mt-8 p-4 rounded-2xl bg-white/5 border border-white/5">
-              <h4 className="text-sm font-bold text-secondary uppercase tracking-widest mb-2">
-                Need Help?
-              </h4>
-              <p className="text-xs text-muted leading-relaxed">
-                Swipe right to close this menu or click the close button.
-              </p>
-            </div>
-          </aside>
-        </div>
-      )}
+      <MobileSidebar
+        items={items}
+        activeId={activeId}
+        onSelect={(id) => {
+          onSelect(id);
+          setIsMobileOpen(false);
+        }}
+        isOpen={isMobileOpen}
+        setIsOpen={setIsMobileOpen}
+        themeColor={themeColor}
+      />
 
       {/* Desktop Sidebar */}
-      <aside className="hidden lg:flex w-64 h-[calc(100vh-80px)] sticky top-28 z-40 flex-col border-r border-white/5 pr-4 bg-transparent">
-        <nav className="flex flex-col space-y-2">
-          <NavItems />
-        </nav>
+      <aside className="hidden lg:flex w-64 min-h-[calc(100vh-200px)] sticky top-28 z-40 flex-col pr-4">
+        <div className="bg-surface/80 dark:bg-black/20 backdrop-blur-sm rounded-[2rem] border border-black/5 dark:border-white/5 p-4">
+          <nav className="flex flex-col space-y-2">
+            <SidebarNavList
+              items={items}
+              activeId={activeId}
+              themeColor={themeColor}
+              onSelect={onSelect}
+            />
+          </nav>
 
-        <div className="mt-8 p-4 rounded-2xl bg-surface dark:bg-white/5 border border-white/5">
-          <h4 className="text-sm font-bold text-secondary uppercase tracking-widest mb-2">
-            Need Help?
-          </h4>
-          <p className="text-xs text-muted leading-relaxed">
-            Our AI agents are here to guide you through your career journey.
-          </p>
+          <div className="mt-8 p-4 rounded-2xl bg-surface dark:bg-black/40 border border-black/5 dark:border-white/5">
+            <h4
+              className={`text-sm font-bold ${currentTheme.headerText} uppercase tracking-widest mb-2 transition-colors duration-300`}
+            >
+              Need Help?
+            </h4>
+            <p className="text-xs text-muted leading-relaxed">
+              Our AI agents are here to guide you through your career journey.
+            </p>
+          </div>
         </div>
       </aside>
     </>
